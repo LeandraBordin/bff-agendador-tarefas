@@ -4,7 +4,6 @@ import com.leandra.bff_agendador_tarefas.business.dto.EnderecoDTO;
 import com.leandra.bff_agendador_tarefas.business.dto.TelefoneDTO;
 import com.leandra.bff_agendador_tarefas.business.dto.UsuarioDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "usuario",url = "${usuario.url}")
@@ -21,7 +20,7 @@ public interface UsuarioClient {
 
     @DeleteMapping("/{email}")
     Void deletaUsuarioPorEmail(@PathVariable String email,
-                                                      @RequestHeader("Authorization") String token);
+                               @RequestHeader("Authorization") String token);
     @PutMapping
     UsuarioDTO atualizaDadosUsuario(@RequestBody UsuarioDTO usuarioDTO, @RequestHeader("Authorization") String token);
 
