@@ -1,11 +1,8 @@
 package com.leandra.bff_agendador_tarefas.business;
-
 import com.leandra.bff_agendador_tarefas.business.dto.EnderecoDTO;
 import com.leandra.bff_agendador_tarefas.business.dto.TelefoneDTO;
 import com.leandra.bff_agendador_tarefas.business.dto.UsuarioDTO;
 import com.leandra.bff_agendador_tarefas.infrastructure.client.UsuarioClient;
-import com.leandra.bff_agendador_tarefas.infrastructure.exceptions.ConflictException;
-import com.leandra.bff_agendador_tarefas.infrastructure.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +25,7 @@ public class UsuarioService {
         usuarioClient.deletaUsuarioPorEmail(email,token);
     }
     public UsuarioDTO atualizaDadosUsuario(String token, UsuarioDTO usuarioDTO){
+        System.out.println("TOKEN -> " + token);
        return usuarioClient.atualizaDadosUsuario(usuarioDTO,token);
     }
     public EnderecoDTO atualizaEndereco(Long idEndereco, EnderecoDTO enderecoDTO,String token){

@@ -4,8 +4,10 @@ import com.leandra.bff_agendador_tarefas.business.UsuarioService;
 import com.leandra.bff_agendador_tarefas.business.dto.EnderecoDTO;
 import com.leandra.bff_agendador_tarefas.business.dto.TelefoneDTO;
 import com.leandra.bff_agendador_tarefas.business.dto.UsuarioDTO;
+import com.leandra.bff_agendador_tarefas.infrastructure.Security.SecurityConfig;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/usuario")
 @RequiredArgsConstructor
 @Tag(name = "Usuário", description = "Cadastro e login de Usuário")
+@SecurityRequirement(name = SecurityConfig.SECURITY_SCHEME)
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -40,16 +43,16 @@ public class UsuarioController {
     @ApiResponse(responseCode = "404",description = "Usuário não cadastrado")
     @ApiResponse(responseCode = "500",description = "Erro de Servidor")
     public ResponseEntity<UsuarioDTO> buscaUsuarioPorEmail(@RequestParam("email")String email,
-                                                           @RequestHeader("Authorization") String token){
+                                                           @RequestHeader(name ="Authorization", required = false) String token){
         return ResponseEntity.ok(usuarioService.buscaUsuarioPorEmail(email,token));
     }
     @DeleteMapping("/{email}")
     @Operation(summary = "Deleta Usuário", description = "Deleta usuário por email")
     @ApiResponse(responseCode = "200",description = "Usuário deletado com sucesso")
-    @ApiResponse(responseCode = "404",description = "Usuário não encontradox")
+    @ApiResponse(responseCode = "404",description = "Usuário não encontrado")
     @ApiResponse(responseCode = "500",description = "Erro de Servidor")
     public ResponseEntity<Void> deletaUsuarioPorEmail(@PathVariable String email,
-                                                      @RequestHeader("Authorization") String token){
+                                                      @RequestHeader(name ="Authorization", required = false) String token){
         usuarioService.deletaUsuarioPorEmail(email,token);
         return ResponseEntity.ok().build();
     }
@@ -58,7 +61,7 @@ public class UsuarioController {
     @ApiResponse(responseCode = "200",description = "Usuário atualizado com sucesso")
     @ApiResponse(responseCode = "404",description = "Usuário não cadastrado")
     @ApiResponse(responseCode = "500",description = "Erro de Servidor")
-    public ResponseEntity<UsuarioDTO> atualizaDadosUsuario(@RequestBody UsuarioDTO usuarioDTO, @RequestHeader("Authorization") String token){
+    public ResponseEntity<UsuarioDTO> atualizaDadosUsuario(@RequestBody UsuarioDTO usuarioDTO, @RequestHeader(name ="Authorization", required = false) String token){
         return  ResponseEntity.ok(usuarioService.atualizaDadosUsuario(token,usuarioDTO));
     }
     @PutMapping("/endereco")
@@ -66,7 +69,9 @@ public class UsuarioController {
     @ApiResponse(responseCode = "200",description = "Endereço atualizado com sucesso")
     @ApiResponse(responseCode = "404",description = "Usuário não encontrado")
     @ApiResponse(responseCode = "500",description = "Erro de Servidor")
-    public ResponseEntity<EnderecoDTO> atualizaEndereco(@RequestBody EnderecoDTO enderecoDTO,@RequestParam("id") Long id,@RequestHeader("Authorization") String token){
+    public ResponseEntity<EnderecoDTO> atualizaEndereco(@RequestBody EnderecoDTO enderecoDTO,
+                                                        @RequestParam("id") Long id,
+                                                        @RequestHeader(name ="Authorization", required = false) String token){
         return ResponseEntity.ok(usuarioService.atualizaEndereco(id,enderecoDTO,token));
 
     }
@@ -75,7 +80,7 @@ public class UsuarioController {
     @ApiResponse(responseCode = "200",description = "Telefone atualizado com sucesso")
     @ApiResponse(responseCode = "404",description = "Usuário não encontrado")
     @ApiResponse(responseCode = "500",description = "Erro de Servidor")
-    public ResponseEntity<TelefoneDTO> atualizaTelefone(@RequestBody TelefoneDTO telefoneDTO, @RequestParam("id") Long id,@RequestHeader("Authorization") String token){
+    public ResponseEntity<TelefoneDTO> atualizaTelefone(@RequestBody TelefoneDTO telefoneDTO, @RequestParam("id") Long id,@RequestHeader(name ="Authorization", required = false) String token){
         return ResponseEntity.ok(usuarioService.atualizaTelefone(id,telefoneDTO,token));
     }
     @PostMapping("/endereco")
@@ -83,7 +88,7 @@ public class UsuarioController {
     @ApiResponse(responseCode = "200",description = "Endereço salvo com sucesso")
     @ApiResponse(responseCode = "404",description = "Usuário não encontrado")
     @ApiResponse(responseCode = "500",description = "Erro de Servidor")
-    public ResponseEntity<EnderecoDTO> cadastraEndereco(@RequestBody EnderecoDTO enderecoDTO, @RequestHeader("Authorization") String token){
+    public ResponseEntity<EnderecoDTO> cadastraEndereco(@RequestBody EnderecoDTO enderecoDTO, @RequestHeader(name ="Authorization", required = false) String token){
         return ResponseEntity.ok(usuarioService.cadastraEndereco(token,enderecoDTO));
     }
     @PostMapping("/telefone")
@@ -91,7 +96,7 @@ public class UsuarioController {
     @ApiResponse(responseCode = "200",description = "Telefone salvo com sucesso")
     @ApiResponse(responseCode = "404",description = "Usuário não encontrado")
     @ApiResponse(responseCode = "500",description = "Erro de Servidor")
-    public ResponseEntity<TelefoneDTO> cadastraTelefone(@RequestBody TelefoneDTO telefoneDTO, @RequestHeader("Authorization") String token){
+    public ResponseEntity<TelefoneDTO> cadastraTelefone(@RequestBody TelefoneDTO telefoneDTO, @RequestHeader(name ="Authorization", required = false) String token){
         return ResponseEntity.ok(usuarioService.cadastraTelefone(token,telefoneDTO));
     }
 }
