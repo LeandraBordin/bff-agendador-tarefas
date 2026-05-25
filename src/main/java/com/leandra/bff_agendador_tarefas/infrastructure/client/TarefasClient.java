@@ -1,6 +1,7 @@
 package com.leandra.bff_agendador_tarefas.infrastructure.client;
 
 import com.leandra.bff_agendador_tarefas.business.dto.TarefasDTO;
+import com.leandra.bff_agendador_tarefas.business.dto.in.TarefasDTORequest;
 import com.leandra.bff_agendador_tarefas.infrastructure.enums.Status;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,12 +14,12 @@ import java.util.List;
 public interface TarefasClient {
 
     @PostMapping
-    TarefasDTO gravarTarefas(@RequestBody TarefasDTO tarefasDTO, @RequestHeader("Authorization") String token);
+    TarefasDTO gravarTarefas(@RequestBody TarefasDTORequest tarefasDTO, @RequestHeader("Authorization") String token);
 
     @GetMapping("/eventos")
     List<TarefasDTO> buscaListaDeTarefasPorPeriodo(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicial,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFinal,
+            @RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataInicial,
+            @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataFinal,
             @RequestHeader("Authorization") String token);
 
     @GetMapping
@@ -34,7 +35,7 @@ public interface TarefasClient {
                                        @RequestHeader("Authorization") String token);
 
     @PutMapping
-    TarefasDTO updateTarefas(@RequestBody TarefasDTO tarefasDTO,
+    TarefasDTO updateTarefas(@RequestBody TarefasDTORequest tarefasDTO,
                              @RequestParam("id") String id,
                              @RequestHeader("Authorization") String token);
 }
