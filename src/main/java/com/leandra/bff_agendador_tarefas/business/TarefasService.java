@@ -2,6 +2,7 @@ package com.leandra.bff_agendador_tarefas.business;
 
 
 import com.leandra.bff_agendador_tarefas.business.dto.TarefasDTO;
+import com.leandra.bff_agendador_tarefas.business.dto.in.TarefasDTORequest;
 import com.leandra.bff_agendador_tarefas.infrastructure.client.TarefasClient;
 import com.leandra.bff_agendador_tarefas.infrastructure.enums.Status;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 public class TarefasService {
 
     private final TarefasClient tarefasClient;
-    public TarefasDTO gravarTarefas(String token, TarefasDTO tarefasDTO) {
+    public TarefasDTO gravarTarefas(String token, TarefasDTORequest tarefasDTO) {
         return tarefasClient.gravarTarefas(tarefasDTO,token);
     }
 
@@ -34,7 +35,7 @@ public class TarefasService {
     public TarefasDTO alteraStatus(Status status, String id,String token) {
       return tarefasClient.alteraStatusNotificacao(status,id,token);
     }
-    public TarefasDTO updateTarefas(TarefasDTO tarefasDTO,String id,String token){
+    public TarefasDTO updateTarefas(TarefasDTORequest tarefasDTO,String id,String token){
         return tarefasClient.updateTarefas(tarefasDTO,id,token);
     }
 }

@@ -2,6 +2,7 @@ package com.leandra.bff_agendador_tarefas.controller;
 
 import com.leandra.bff_agendador_tarefas.business.TarefasService;
 import com.leandra.bff_agendador_tarefas.business.dto.TarefasDTO;
+import com.leandra.bff_agendador_tarefas.business.dto.in.TarefasDTORequest;
 import com.leandra.bff_agendador_tarefas.infrastructure.Security.SecurityConfig;
 import com.leandra.bff_agendador_tarefas.infrastructure.enums.Status;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,7 +29,7 @@ public class TarefasController {
     @Operation(summary = "Salvar Tarefas de Usuário", description = "Cria uma nova tarefa")
     @ApiResponse(responseCode = "200",description = "Tarefa salva com sucesso")
     @ApiResponse(responseCode = "500",description = "Erro de Servidor")
-    public ResponseEntity<TarefasDTO> gravarTarefas(@RequestBody TarefasDTO tarefasDTO, @RequestHeader(name ="Authorization", required = false) String token) {
+    public ResponseEntity<TarefasDTO> gravarTarefas(@RequestBody TarefasDTORequest tarefasDTO, @RequestHeader(name ="Authorization", required = false) String token) {
         return ResponseEntity.ok(tarefasService.gravarTarefas(token, tarefasDTO));
     }
 
@@ -75,7 +76,7 @@ public class TarefasController {
     @Operation(summary = "Altera Dados de Tarefas", description = "Altera dados de tarefas cadastradas")
     @ApiResponse(responseCode = "200",description = "Tarefa alterada")
     @ApiResponse(responseCode = "500",description = "Erro de Servidor")
-    public ResponseEntity<TarefasDTO> updateTarefas(@RequestBody TarefasDTO tarefasDTO,
+    public ResponseEntity<TarefasDTO> updateTarefas(@RequestBody TarefasDTORequest tarefasDTO,
                                                     @RequestParam("id") String id,
                                                     @RequestHeader(name ="Authorization", required = false) String token) {
         return ResponseEntity.ok(tarefasService.updateTarefas(tarefasDTO, id,token));
